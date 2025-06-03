@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_DATABASE: prueba_tia
+      MYSQL_USER: jaguadal
+      MYSQL_PASSWORD: Bebuloco2022
+      MYSQL_ROOT_PASSWORD: Bebuloco2022
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./mysql/init:/docker-entrypoint-initdb.d
+
+  backend:
+    build: ./backend
+    restart: always
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_USER: jaguadal
+      DB_PASSWORD: Bebuloco2022
+      DB_NAME: prueba_tia
+    ports:
+      - "3001:3001"
+      
+volumes:
+  db_data:
