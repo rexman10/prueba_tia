@@ -1,0 +1,246 @@
+{
+	"info": {
+		"_postman_id": "0a38b908-17c5-4acf-8bd1-f16068002380",
+		"name": "API Prueba Técnica",
+		"description": "# 📘 Documentación de API - Prueba Técnica\n\nEsta documentación describe los endpoints implementados para cumplir con los requerimientos de la prueba técnica.\n\n---\n\n## 🔐 Reglas y ejemplos prácticos\n\n### ✅ 1. Registrar precio\n\n**Endpoint:** `POST /precio`\n\n**Descripción:** Registra un nuevo precio para un producto en una tienda durante un rango de fechas y horas.\n\n**Ejemplo de solicitud:**\n\n``` json\nPOST /precio\n{\n  \"producto_id\": 1,\n  \"tienda_id\": 1,\n  \"precio\": 1.50,\n  \"fecha_inicio\": \"2025-06-01\",\n  \"fecha_fin\": \"2025-06-30\",\n  \"hora_inicio\": \"08:00:00\",\n  \"hora_fin\": \"22:00:00\",\n  \"fecha_creacion\": \"2025-06-01T10:00:00\"\n}\n\n ```\n\n---\n\n### ✅ 2. Consultar precio final vigente\n\n**Endpoint:** `GET /precio/final`\n\n**Descripción:** Devuelve el precio final vigente de un producto en una tienda, aplicando promociones si las hay.\n\n**Ejemplo de solicitud:**\n\n```\nGET /precio/final?tienda_id=1&producto_id=1&fecha=2025-06-02&hora=10:00\n\n ```\n\n**Respuesta esperada:**\n\n``` json\n{\n  \"precio_base\": 1.5,\n  \"descuento_aplicado\": \"10%\",\n  \"precio_final\": \"1.35\"\n}\n\n ```\n\n---\n\n### ✅ 3. Registrar promoción\n\n**Endpoint:** `POST /promocion`\n\n**Descripción:** Crea una promoción con porcentaje de descuento y un rango de fechas y horas.\n\n**Ejemplo de solicitud:**\n\n``` json\nPOST /promocion\n{\n  \"nombre\": \"Descuento Leche\",\n  \"descuento\": 0.10,\n  \"fecha_inicio\": \"2025-06-01\",\n  \"fecha_fin\": \"2025-06-30\",\n  \"hora_inicio\": \"08:00:00\",\n  \"hora_fin\": \"22:00:00\",\n  \"fecha_creacion\": \"2025-06-01T10:00:00\"\n}\n\n ```\n\n---\n\n### ✅ 4. Asociar promoción a productos y tiendas\n\n**Endpoint:** `POST /promocion/asociar`\n\n**Descripción:** Enlaza una promoción a uno o más productos y tiendas.\n\n**Ejemplo de solicitud:**\n\n``` json\nPOST /promocion/asociar\n{\n  \"promocion_id\": 1,\n  \"asociaciones\": [\n    { \"producto_id\": 1, \"tienda_id\": 1 }\n  ]\n}\n\n ```\n\n---\n\n### ✅ 5. Registrar productos\n\n**Endpoint:** `POST /producto`\n\n**Ejemplo de solicitud:**\n\n``` json\nPOST /producto\n{\n  \"nombre\": \"Leche Entera\"\n}\n\n ```\n\n### ✅ 6. Registrar tiendas\n\n**Endpoint:** `POST /tienda`\n\n**Ejemplo de solicitud:**\n\n``` json\nPOST /tienda\n{\n  \"nombre\": \"Tienda A\",\n  \"direccion\": \"Av. Siempre Viva 123\"\n}\n\n ```\n\n---\n\n## ℹ️ Notas\n\n- Todos los horarios deben estar en formato `HH:MM:SS`\n    \n- Los descuentos deben estar en formato decimal (`0.10` = 10%)\n    \n- Las fechas deben estar en formato `YYYY-MM-DD`",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25564054"
+	},
+	"item": [
+		{
+			"name": "Tienda",
+			"item": [
+				{
+					"name": "Crear tienda",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"nombre\": \"Tienda A\", \"direccion\": \"Av. Siempre Viva 123\"}"
+						},
+						"url": {
+							"raw": "localhost:3001/tienda",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"tienda"
+							]
+						},
+						"description": "Crea una nueva tienda indicando nombre y dirección.\n\n**Ejemplo:**\n```\n{\n  \"nombre\": \"Tienda A\",\n  \"direccion\": \"Av. Siempre Viva 123\"\n}\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "Listar tiendas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3001/tienda",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"tienda"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Producto",
+			"item": [
+				{
+					"name": "Crear producto",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"nombre\": \"Leche Entera\"}"
+						},
+						"url": {
+							"raw": "localhost:3001/producto",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"producto"
+							]
+						},
+						"description": "Registra un nuevo producto.\n\n**Ejemplo:**\n```\n{\n  \"nombre\": \"Leche Entera\"\n}\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "Listar productos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3001/producto",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"producto"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Precio",
+			"item": [
+				{
+					"name": "Crear precio",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"producto_id\": 1, \"tienda_id\": 1, \"precio\": 1.5, \"fecha_inicio\": \"2025-06-01\", \"fecha_fin\": \"2025-06-30\", \"hora_inicio\": \"08:00:00\", \"hora_fin\": \"22:00:00\", \"fecha_creacion\": \"2025-06-01T10:00:00\"}"
+						},
+						"url": {
+							"raw": "localhost:3001/precio",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"precio"
+							]
+						},
+						"description": "Registra un precio base para un producto en una tienda, durante un rango de fechas y horas.\n\n**Ejemplo:**\n```\n{\n  \"producto_id\": 1,\n  \"tienda_id\": 1,\n  \"precio\": 1.50,\n  \"fecha_inicio\": \"2025-06-01\",\n  \"fecha_fin\": \"2025-06-30\",\n  \"hora_inicio\": \"08:00:00\",\n  \"hora_fin\": \"22:00:00\",\n  \"fecha_creacion\": \"2025-06-01T10:00:00\"\n}\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "Consultar precio final",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3001/precio/final?tienda_id=1&producto_id=1&fecha=2025-06-02&hora=10:00",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"precio",
+								"final"
+							],
+							"query": [
+								{
+									"key": "tienda_id",
+									"value": "1"
+								},
+								{
+									"key": "producto_id",
+									"value": "1"
+								},
+								{
+									"key": "fecha",
+									"value": "2025-06-02"
+								},
+								{
+									"key": "hora",
+									"value": "10:00"
+								}
+							]
+						},
+						"description": "Consulta el precio final vigente de un producto en una tienda, considerando promociones aplicables.\n\n**Parámetros:**\n- tienda_id: ID de la tienda\n- producto_id: ID del producto\n- fecha: Fecha de consulta (YYYY-MM-DD)\n- hora: Hora de consulta (HH:MM)\n\n**Ejemplo de llamada:**\n`GET /precio/final?tienda_id=1&producto_id=1&fecha=2025-06-02&hora=10:00`"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Promoción",
+			"item": [
+				{
+					"name": "Crear promoción",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"nombre\": \"Descuento Leche\", \"descuento\": 0.1, \"fecha_inicio\": \"2025-06-01\", \"fecha_fin\": \"2025-06-30\", \"hora_inicio\": \"08:00:00\", \"hora_fin\": \"22:00:00\", \"fecha_creacion\": \"2025-06-01T10:00:00\"}"
+						},
+						"url": {
+							"raw": "localhost:3001/promocion",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"promocion"
+							]
+						},
+						"description": "Crea una promoción con porcentaje de descuento para aplicarse en ciertos horarios y fechas.\n\n**Ejemplo:**\n```\n{\n  \"nombre\": \"Descuento Leche\",\n  \"descuento\": 0.10,\n  \"fecha_inicio\": \"2025-06-01\",\n  \"fecha_fin\": \"2025-06-30\",\n  \"hora_inicio\": \"08:00:00\",\n  \"hora_fin\": \"22:00:00\",\n  \"fecha_creacion\": \"2025-06-01T10:00:00\"\n}\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "Asociar promoción",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"promocion_id\": 1, \"asociaciones\": [{\"producto_id\": 1, \"tienda_id\": 1}]}"
+						},
+						"url": {
+							"raw": "localhost:3001/promocion/asociar",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"promocion",
+								"asociar"
+							]
+						},
+						"description": "Asocia una promoción existente a una o más combinaciones de productos y tiendas.\n\n**Ejemplo:**\n```\n{\n  \"promocion_id\": 1,\n  \"asociaciones\": [\n    {\"producto_id\": 1, \"tienda_id\": 1}\n  ]\n}\n```"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
